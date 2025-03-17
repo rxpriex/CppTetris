@@ -1,5 +1,6 @@
 # Ignore all files by default
 *
+!*/
 
 # Include known language source files
 !*.c
