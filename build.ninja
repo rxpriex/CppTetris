@@ -50,6 +50,12 @@ build CMakeFiles/main.dir/src/main.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Us
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir\src
 
+build CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Asus/Desktop/VRepos/CppTetris/src/Graphics/RxFrame.cpp || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles\main.dir\src\Graphics\RxFrame.cpp.obj.d
+  INCLUDES = -isystem C:/msys64/mingw64/include/SDL2
+  OBJECT_DIR = CMakeFiles\main.dir
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src\Graphics
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target main
@@ -58,7 +64,7 @@ build CMakeFiles/main.dir/src/main.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Us
 #############################################
 # Link the executable out\main.exe
 
-build out/main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/src/main.cpp.obj | C$:/msys64/mingw64/lib/libSDL2main.a C$:/msys64/mingw64/lib/libSDL2.dll.a
+build out/main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/src/main.cpp.obj CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj | C$:/msys64/mingw64/lib/libSDL2main.a C$:/msys64/mingw64/lib/libSDL2.dll.a
   LINK_LIBRARIES = C:/msys64/mingw64/lib/libSDL2main.a  C:/msys64/mingw64/lib/libSDL2.dll.a  -lshell32  -Wl,--undefined=WinMain  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\main.dir
   POST_BUILD = cd .

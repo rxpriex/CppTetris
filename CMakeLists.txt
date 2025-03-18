@@ -6,7 +6,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --target=x86_64-w64-windows-gnu -g")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)   
 
-add_executable(main src/main.cpp)
+add_executable(main src/main.cpp src/Graphics/RxFrame.cpp)
 
 set_target_properties(main PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")
 
