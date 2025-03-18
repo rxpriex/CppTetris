@@ -4,7 +4,7 @@ project(main LANGUAGES CXX)
 set(CMAKE_C_COMPILER "C:/msys64/mingw64/bin/clang.exe")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --target=x86_64-w64-windows-gnu -g")
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)   
 
 add_executable(main src/main.cpp)
 

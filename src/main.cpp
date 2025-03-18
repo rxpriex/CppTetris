@@ -7,6 +7,7 @@ int main(int argc, char* argv[]) {
         std::cerr << "SDL initialization failed: " << SDL_GetError() << std::endl;
         return 1;
     }
+    
 
     // Create a window
     SDL_Window* window = SDL_CreateWindow("SDL2 Example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
