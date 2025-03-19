@@ -30,3 +30,15 @@ void RxComponent::getParameters(int *x, int *y, int *w, int *h){
         *h = this->height;
     }
 }
+
+void RxComponent::move(){
+  x+=xspeed;
+  y+=yspeed;
+  xspeed = 0;
+  yspeed = 0;
+}
+
+void RxComponent::set_movement_parameters(int x, int y){
+  xspeed=x;
+  yspeed=y;
+}

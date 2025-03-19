@@ -1,34 +1,86 @@
+#include "Graphics/Component/RxComponent.h"
 #include "Graphics/RxFrame.h"
+#include <SDL_events.h>
+#include <SDL_rect.h>
+#include <SDL_render.h>
 #include <iostream>
 
-void start_render(){
-    RxFrame* frame= new RxFrame(400,600);
+RxFrame* frame;
 
-    RxComponent rc(Color(255,255,255,255),
-    [&](RxComponent* rcp, SDL_Renderer* rnd){
-        int x = 0,y = 0, width = 0, height = 0;
-        rcp->getParameters(&x, &y, &width, &height);
+class Rect: public RxComponent{
+private:
+    SDL_FRect hitbox;
 
-        SDL_Rect rect = {x, y, width, height}; // x, y, width, height
-        SDL_SetRenderDrawColor(rnd, 0, 255, 0, 255); // Green
-        SDL_RenderFillRect(rnd, &rect);
-    });
+    SDL_Rect getRect(int x,int y,int w,int h){
+        SDL_Rect to_render;
 
-    rc.setLocation(50, 50);
-    rc.setSize(50, 50);
+        to_render.x = x;
+        to_render.y = y;
+        to_render.w = w;
+        to_render.h = h;
 
-    frame->access_children()->push_back(rc);
+        return to_render;
+    }
+
+public:
+    Rect(int x,int y,int width, int height):RxComponent(Color(255,255,255,255), 
+    [&](RxComponent* component,SDL_Renderer*  render){    
+        move();
+        SDL_SetRenderDrawColor(render, c.r, c.g, c.b, c.a);
+        
+        SDL_Rect to_render = getRect(this->x, this->y,
+            this->width, this->height);
+        SDL_RenderFillRect(render, &to_render);
+    }){
+        hitbox.x = x;
+        hitbox.y = y;
+        hitbox.w = width;
+        hitbox.h = height;
+
+        setLocation(x,y);
+        setSize(width, height);
+    }
+};
+
+Rect* player;
+
+int main(int argc, char* argv[]) {
+    frame = new RxFrame(400,600);
+
+    player = new Rect(50,50,10,10);
+
+    frame->access_children()->push_back(player);
 
     bool running = true;
     while (running) {
-        if(!frame->renderNextFrame()){
-            running = false;
+        SDL_Event event = frame->renderNextFrame();
+        switch (event.type) {
+            case SDL_QUIT:
+                running = false;
+            break;
+
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                    case SDLK_s:
+                        player->set_movement_parameters(0, 10);
+                        break;
+                    case SDLK_d:
+                        player->set_movement_parameters(10, 0);
+                        break;
+                    case SDLK_a:
+                        player->set_movement_parameters(-10, 0);
+                    break;
+                    case SDLK_q:
+                        std::cout << "Q pressed, quitting..." << std::endl;
+                        running = false;
+                        break;
+                    default:
+                        std::cout << "Keypress not recognised" << std::endl;
+                        break;
+                }
+            break;
         }
     }
-}
-
-int main(int argc, char* argv[]) {
-    start_render();
 
     return 0;
 }

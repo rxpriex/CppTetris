@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <SDL_error.h>
+#include <SDL_events.h>
 #include <SDL_render.h>
 #include <SDL_video.h>
 #include <cstdlib>
@@ -26,7 +27,7 @@ private:
   SDL_Window *DISPLAY;
   SDL_Renderer *RENDERER;
 
-  std::vector<RxComponent> *children;
+  std::vector<RxComponent*> *children;
 
 public:
   RxFrame(int rw, int rh) {
@@ -36,6 +37,7 @@ public:
   }
 
   ~RxFrame() {
+    printf("Test");
     SDL_DestroyRenderer(RENDERER);
     SDL_DestroyWindow(DISPLAY);
     SDL_Quit();
@@ -46,9 +48,9 @@ public:
 
   bool initFrame(int rw, int rh);
 
-  bool renderNextFrame();
+  SDL_Event renderNextFrame();
 
-  std::vector<RxComponent>* access_children();
+  std::vector<RxComponent*>* access_children();
 };
 
 #endif

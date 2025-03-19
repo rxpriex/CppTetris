@@ -1,5 +1,6 @@
 #include "RxFrame.h"
 #include "Component/RxComponent.h"
+#include <SDL_events.h>
 #include <vector>
 
 bool RxFrame::initFrame(int rw, int rh) {
@@ -14,23 +15,29 @@ bool RxFrame::initFrame(int rw, int rh) {
   if (!RENDERER)
     return false;
 
-  children = new std::vector<RxComponent>();
+  children = new std::vector<RxComponent*>();
 
   return true;
 }
 
-bool RxFrame::renderNextFrame() {
+SDL_Event RxFrame::renderNextFrame() {
   SDL_Event event;
   SDL_PollEvent(&event);
   if (event.type == SDL_QUIT) {
-    return false;
+    return event;
   }
 
-  for (RxComponent rc : *children) {
-    (*rc.access_render_instructions())(&rc, RENDERER);
+  SDL_SetRenderDrawColor(RENDERER, 
+    0, 0, 0, 255);
+  SDL_RenderClear(RENDERER);
+
+  for (RxComponent* rc : *children) {
+    (*(rc->access_render_instructions()))(rc, RENDERER);
   }
 
-  return true;
+  SDL_RenderPresent(RENDERER);
+
+  return event;
 }
 
-std::vector<RxComponent> *RxFrame::access_children() { return children; }
+std::vector<RxComponent*> *RxFrame::access_children() { return children; }

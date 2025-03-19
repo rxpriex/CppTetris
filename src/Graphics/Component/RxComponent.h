@@ -7,10 +7,8 @@
 
 
 class Color {
-private:
-  int r, g, b, a;
-
 public:
+  int r, g, b, a;
   Color(int r, int g, int b, int a) {
     this->r = r;
     this->g = g;
@@ -21,9 +19,11 @@ public:
 };
 
 class RxComponent {
-private:
+protected:
   int x, y;
   int width, height;
+
+  int xspeed,yspeed;
 
   Color c;
 
@@ -42,6 +42,10 @@ public:
   void setSize(int, int);
 
   void getParameters(int*,int*,int*,int*);
+
+  void move();
+
+  void set_movement_parameters(int,int);
 };
 
 #endif
