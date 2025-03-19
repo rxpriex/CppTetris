@@ -5,8 +5,6 @@
 #include <SDL_render.h>
 #include <iostream>
 
-RxFrame* frame;
-
 class Rect: public RxComponent{
 private:
     SDL_FRect hitbox;
@@ -45,15 +43,15 @@ public:
 Rect* player;
 
 int main(int argc, char* argv[]) {
-    frame = new RxFrame(400,600);
+    RxFrame frame(400,600);
 
-    player = new Rect(50,50,10,10);
+    Rect player(50,50,10,10);
 
-    frame->access_children()->push_back(player);
+    frame.access_children()->push_back(player);
 
     bool running = true;
     while (running) {
-        SDL_Event event = frame->renderNextFrame();
+        SDL_Event event = frame.renderNextFrame();
         switch (event.type) {
             case SDL_QUIT:
                 running = false;
@@ -62,13 +60,13 @@ int main(int argc, char* argv[]) {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_s:
-                        player->set_movement_parameters(0, 10);
+                        player.set_movement_parameters(0, 10);
                         break;
                     case SDLK_d:
-                        player->set_movement_parameters(10, 0);
+                        player.set_movement_parameters(10, 0);
                         break;
                     case SDLK_a:
-                        player->set_movement_parameters(-10, 0);
+                        player.set_movement_parameters(-10, 0);
                     break;
                     case SDLK_q:
                         std::cout << "Q pressed, quitting..." << std::endl;

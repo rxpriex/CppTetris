@@ -10,6 +10,7 @@
 #include <stdio.h>
 
 #include <vector>
+#include <memory>
 
 #include "Component/RxComponent.h"
 
@@ -24,33 +25,25 @@ static void __attribute__((noreturn)) THROW_SDL_ERROR(SDL_Window *DISPLAY,
 
 class RxFrame {
 private:
-  SDL_Window *DISPLAY;
-  SDL_Renderer *RENDERER;
+  std::shared_ptr<SDL_Window> DISPLAY;
+  std::shared_ptr<SDL_Renderer> RENDERER;
 
-  std::vector<RxComponent*> *children;
+  std::shared_ptr<std::vector<RxComponent>> children;
 
 public:
   RxFrame(int rw, int rh) {
     if (!initFrame(rw, rh)) {
-      THROW_SDL_ERROR(DISPLAY, RENDERER);
+      THROW_SDL_ERROR(DISPLAY.get(), RENDERER.get());
     }
   }
 
-  ~RxFrame() {
-    printf("Test");
-    SDL_DestroyRenderer(RENDERER);
-    SDL_DestroyWindow(DISPLAY);
-    SDL_Quit();
-
-    children->clear();
-    delete children;
-  }
+  ~RxFrame()=default;
 
   bool initFrame(int rw, int rh);
 
   SDL_Event renderNextFrame();
 
-  std::vector<RxComponent*>* access_children();
+  std::vector<RxComponent>* access_children();
 };
 
 #endif

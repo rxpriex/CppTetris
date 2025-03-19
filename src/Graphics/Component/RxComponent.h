@@ -31,7 +31,7 @@ protected:
 
 public:
   RxComponent(Color c, std::function<void(RxComponent *,SDL_Renderer*)> render_instructions)
-      : c(c), render_instructions(render_instructions) {}
+      : c(c), render_instructions(render_instructions), xspeed(0), yspeed(0), x(0),y(0) {}
 
   ~RxComponent() = default;
 
