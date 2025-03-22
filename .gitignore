@@ -67,7 +67,6 @@
 
 # Include important build system files
 !CMakeLists.txt
-!Makefile
 !*.cmake
 !*.mk
 !*.sln
