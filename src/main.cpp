@@ -5,6 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
 #include <cstddef>
+#include <cstdio>
 #include <iostream>
 
 class Rect: public RxComponent{
@@ -28,6 +29,9 @@ private:
         hitbox.y += yspeed;
 
         if(SDL_HasIntersection(&bounds, &hitbox) == SDL_FALSE){
+            if((hitbox.y) >= (bounds.y+bounds.h)){
+                printf("Done\n");
+            }
             hitbox.x -= xspeed;
             hitbox.y -= yspeed;
         }else{
