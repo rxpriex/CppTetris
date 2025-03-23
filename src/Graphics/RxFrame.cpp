@@ -1,8 +1,8 @@
 #include "RxFrame.h"
 #include "Component/RxComponent.h"
-#include <SDL_events.h>
-#include <SDL_render.h>
-#include <SDL_video.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_video.h>
 #include <memory>
 #include <vector>
 

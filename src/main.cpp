@@ -1,13 +1,16 @@
 #include "Graphics/Component/RxComponent.h"
 #include "Graphics/RxFrame.h"
-#include <SDL_events.h>
-#include <SDL_rect.h>
-#include <SDL_render.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_rect.h>
+#include <SDL2/SDL_render.h>
+#include <SDL2/SDL_stdinc.h>
+#include <cstddef>
 #include <iostream>
 
 class Rect: public RxComponent{
 private:
-    SDL_FRect hitbox;
+    SDL_Rect hitbox;
+    SDL_Rect bounds;
 
     SDL_Rect getRect(int x,int y,int w,int h){
         SDL_Rect to_render;
@@ -18,6 +21,22 @@ private:
         to_render.h = h;
 
         return to_render;
+    }
+
+    void move(){
+        hitbox.x += xspeed;
+        hitbox.y += yspeed;
+
+        if(SDL_HasIntersection(&bounds, &hitbox) == SDL_FALSE){
+            hitbox.x -= xspeed;
+            hitbox.y -= yspeed;
+        }else{
+            x += xspeed;
+            y += yspeed;
+        }
+
+        xspeed = 0;
+        yspeed = 0;
     }
 
 public:
@@ -38,6 +57,13 @@ public:
         setLocation(x,y);
         setSize(width, height);
     }
+
+    void setBounds(int maxX, int maxY){
+        bounds.h = maxY;
+        bounds.w = maxX;
+        bounds.x = 0;
+        bounds.y = 0;
+    }
 };
 
 Rect* player;
@@ -46,6 +72,7 @@ int main(int argc, char* argv[]) {
     RxFrame frame(400,600);
 
     Rect player(50,50,10,10);
+    player.setBounds(400, 600);
 
     frame.access_children()->push_back(player);
 
