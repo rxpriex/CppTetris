@@ -1,16 +1,11 @@
 #include "RxFrame.h"
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
-#include <SDL_rect.h>
-#include <SDL_stdinc.h>
+#include <SDL_mutex.h>
+#include <SDL_thread.h>
 #include <memory>
-#include <mutex>
-#include <vector>
 
 RxFrame::RxFrame(int rw, int rh){
     if (!initFrame(rw, rh)) {
-      THROW_SDL_ERROR(DISPLAY.get(), RENDERER.get());
+      THROW_SDL_ERROR(display.get(), renderer.get());
     }
 }
 
@@ -18,52 +13,43 @@ bool RxFrame::initFrame(int rw, int rh) {
 
     children = std::shared_ptr<std::vector<RxComponent*>>(new std::vector<RxComponent*>);
 
-    mutex = std::shared_ptr<std::mutex>(new std::mutex());
+    mutex = std::shared_ptr<SDL_mutex>(SDL_CreateMutex(),[](SDL_mutex* mutex){
+      SDL_DestroyMutex(mutex);
+    });
 
-    /*if (SDL_Init(SDL_INIT_VIDEO) < 0)
-        return;
+    this->rw = rw;
+    this->rh = rh;
+    this->frames = 60;
+    this->repaint = true;
+    this->running = true;
 
-      DISPLAY = std::shared_ptr<SDL_Window>(SDL_CreateWindow("Test", 50, 50, rw, rh, SDL_WINDOW_SHOWN),[](SDL_Window* window) {
-          if (window) {
-              SDL_DestroyWindow(window); // Properly clean up SDL_Window
-          }
-      });
-      if (!DISPLAY.get())
-          return;
-
-      RENDERER = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(DISPLAY.get(), -1, SDL_RENDERER_ACCELERATED),[](SDL_Renderer* render) {
-          if (render) {
-              SDL_DestroyRenderer(render); // Properly clean up SDL_Window
-          }
-      });
-      if (!RENDERER.get())
-          return;*/
-
-
+    graphicThread = std::shared_ptr<SDL_Thread>(SDL_CreateThread(static_thread_function, "GraphicsThread", this),
+  [](SDL_Thread* th){});
+    SDL_DetachThread(graphicThread.get());
 
   return true;
 }
 
-SDL_Event RxFrame::renderNextFrame() {
+int RxFrame::renderNextFrame() {
   SDL_Event event;
   SDL_PollEvent(&event);
   if (event.type == SDL_QUIT) {
-    return event;
+    return -1;
   }
 
-  SDL_SetRenderDrawColor(RENDERER.get(),
+  SDL_SetRenderDrawColor(renderer.get(),
     0, 0, 0, 255);
-  SDL_RenderClear(RENDERER.get());
+  SDL_RenderClear(renderer.get());
 
   for (RxComponent* rc : *children.get()) {
-    mutex.get()->lock();
-    (*(rc->access_render_instructions()))(rc, RENDERER.get());
-    mutex.get()->unlock();
+    
+    (*(rc->access_render_instructions()))(rc, renderer.get());
+    
   }
 
-  SDL_RenderPresent(RENDERER.get());
+  SDL_RenderPresent(renderer.get());
 
-  return event;
+  return 1;
 }
 
 void RxFrame::addComponent(RxComponent* target){

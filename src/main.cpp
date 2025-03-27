@@ -5,7 +5,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
 #include <cstdio>
-#include <iostream>
+#include <windows.h>
 
 DrawAbleSprite* player = NULL;
 
@@ -17,8 +17,8 @@ int main(int argc, char* argv[]) {
     player->setBounds(400, 600);
     frame.addComponent(player);
 
-    while(true){
-
+    while (true) {
+        
     }
 
     return 0;

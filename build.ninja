@@ -34,7 +34,7 @@ include CMakeFiles/rules.ninja
 #############################################
 # Logical path to working directory; prefix for absolute paths.
 
-cmake_ninja_workdir = C$:/Users/Rxpriex/Desktop/VRepos/CppTetris/
+cmake_ninja_workdir = C$:/Users/Rxpriex/Desktop/VRepos/C-CXX/CppTetris/
 # =============================================================================
 # Object build statements for EXECUTABLE target main
 
@@ -44,26 +44,26 @@ cmake_ninja_workdir = C$:/Users/Rxpriex/Desktop/VRepos/CppTetris/
 
 build cmake_object_order_depends_target_main: phony || .
 
-build CMakeFiles/main.dir/src/main.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/CppTetris/src/main.cpp || cmake_object_order_depends_target_main
+build CMakeFiles/main.dir/src/main.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/C-CXX/CppTetris/src/main.cpp || cmake_object_order_depends_target_main
   DEP_FILE = CMakeFiles\main.dir\src\main.cpp.obj.d
-  FLAGS = --target=x86_64-w64-windows-gnu -g
+  FLAGS = -g
   INCLUDES = -isystem C:/msys64/mingw64/include/SDL2
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir\src
 
-build CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/CppTetris/src/Graphics/RxFrame.cpp || cmake_object_order_depends_target_main
+build CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/C-CXX/CppTetris/src/Graphics/RxFrame.cpp || cmake_object_order_depends_target_main
   DEP_FILE = CMakeFiles\main.dir\src\Graphics\RxFrame.cpp.obj.d
-  FLAGS = --target=x86_64-w64-windows-gnu -g
+  FLAGS = -g
   INCLUDES = -isystem C:/msys64/mingw64/include/SDL2
   OBJECT_DIR = CMakeFiles\main.dir
   OBJECT_FILE_DIR = CMakeFiles\main.dir\src\Graphics
 
-build CMakeFiles/main.dir/src/Graphics/Component/RxComponent.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/CppTetris/src/Graphics/Component/RxComponent.cpp || cmake_object_order_depends_target_main
-  DEP_FILE = CMakeFiles\main.dir\src\Graphics\Component\RxComponent.cpp.obj.d
-  FLAGS = --target=x86_64-w64-windows-gnu -g
+build CMakeFiles/main.dir/src/Graphics/Components/Template/RxComponent.cpp.obj: CXX_COMPILER__main_unscanned_ C$:/Users/Rxpriex/Desktop/VRepos/C-CXX/CppTetris/src/Graphics/Components/Template/RxComponent.cpp || cmake_object_order_depends_target_main
+  DEP_FILE = CMakeFiles\main.dir\src\Graphics\Components\Template\RxComponent.cpp.obj.d
+  FLAGS = -g
   INCLUDES = -isystem C:/msys64/mingw64/include/SDL2
   OBJECT_DIR = CMakeFiles\main.dir
-  OBJECT_FILE_DIR = CMakeFiles\main.dir\src\Graphics\Component
+  OBJECT_FILE_DIR = CMakeFiles\main.dir\src\Graphics\Components\Template
 
 
 # =============================================================================
@@ -73,8 +73,8 @@ build CMakeFiles/main.dir/src/Graphics/Component/RxComponent.cpp.obj: CXX_COMPIL
 #############################################
 # Link the executable out\main.exe
 
-build out/main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/src/main.cpp.obj CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj CMakeFiles/main.dir/src/Graphics/Component/RxComponent.cpp.obj | C$:/msys64/mingw64/lib/libSDL2main.a C$:/msys64/mingw64/lib/libSDL2.dll.a
-  FLAGS = --target=x86_64-w64-windows-gnu -g
+build out/main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/src/main.cpp.obj CMakeFiles/main.dir/src/Graphics/RxFrame.cpp.obj CMakeFiles/main.dir/src/Graphics/Components/Template/RxComponent.cpp.obj | C$:/msys64/mingw64/lib/libSDL2main.a C$:/msys64/mingw64/lib/libSDL2.dll.a
+  FLAGS = -g
   LINK_LIBRARIES = C:/msys64/mingw64/lib/libSDL2main.a  C:/msys64/mingw64/lib/libSDL2.dll.a  -lshell32  -Wl,--undefined=WinMain  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\main.dir
   POST_BUILD = cd .
@@ -88,7 +88,7 @@ build out/main.exe: CXX_EXECUTABLE_LINKER__main_ CMakeFiles/main.dir/src/main.cp
 # Utility command for edit_cache
 
 build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Rxpriex\Desktop\VRepos\CppTetris && C:\msys64\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Rxpriex\Desktop\VRepos\C-CXX\CppTetris && C:\msys64\mingw64\bin\cmake.exe -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
@@ -99,7 +99,7 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 # Utility command for rebuild_cache
 
 build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Rxpriex\Desktop\VRepos\CppTetris && C:\msys64\mingw64\bin\cmake.exe --regenerate-during-build -SC:\Users\Rxpriex\Desktop\VRepos\CppTetris -BC:\Users\Rxpriex\Desktop\VRepos\CppTetris"
+  COMMAND = C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Rxpriex\Desktop\VRepos\C-CXX\CppTetris && C:\msys64\mingw64\bin\cmake.exe --regenerate-during-build -SC:\Users\Rxpriex\Desktop\VRepos\C-CXX\CppTetris -BC:\Users\Rxpriex\Desktop\VRepos\C-CXX\CppTetris"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
@@ -119,7 +119,7 @@ build main.exe: phony out/main.exe
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Rxpriex/Desktop/VRepos/CppTetris
+# Folder: C:/Users/Rxpriex/Desktop/VRepos/C-CXX/CppTetris
 
 build all: phony out/main.exe
 

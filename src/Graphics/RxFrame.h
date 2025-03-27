@@ -7,10 +7,10 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 
+#include <SDL_mutex.h>
+#include <SDL_thread.h>
 #include <cstdlib>
-#include <mutex>
 #include <stdio.h>
-#include <thread>
 #include <vector>
 #include <memory>
 #include <functional>
@@ -29,16 +29,51 @@ static void __attribute__((noreturn)) THROW_SDL_ERROR(SDL_Window *DISPLAY,
 class RxFrame {
 private:
     int frames;
-    bool render;
-    std::shared_ptr<std::mutex> mutex;
+    int rw, rh;
+    bool repaint;
+    bool running;
 
-
-    std::shared_ptr<SDL_Window> DISPLAY;
-    std::shared_ptr<SDL_Renderer> RENDERER;
-    std::shared_ptr<std::thread> graphicTimer;
+    std::shared_ptr<SDL_mutex> mutex;
+    std::shared_ptr<SDL_Window> display;
+    std::shared_ptr<SDL_Renderer> renderer;
+    std::shared_ptr<SDL_Thread> graphicThread;
     std::shared_ptr<std::function<void()>> onUpdate;
 
     std::shared_ptr<std::vector<RxComponent*>> children;
+
+    static int __stdcall static_thread_function(void* I){
+      RxFrame* frame = (RxFrame*)I;
+
+      if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        return -1;
+
+      frame->display = std::shared_ptr<SDL_Window>(SDL_CreateWindow("Test", 50, 50, frame->rw, frame->rh,
+         SDL_WINDOW_SHOWN),[](SDL_Window* window) {
+          if (window) {
+              SDL_DestroyWindow(window);
+          }
+      });
+      if (!frame->display.get())
+          return -1;
+
+      frame->renderer = std::shared_ptr<SDL_Renderer>(SDL_CreateRenderer(frame->display.get(), -1, SDL_RENDERER_ACCELERATED),[](SDL_Renderer* render) {
+          if (render) {
+              SDL_DestroyRenderer(render);
+          }
+      });
+      if (!frame->renderer.get())
+          return -1;
+
+      while(frame->running){
+        if(frame->repaint){
+          SDL_mutexP(frame->mutex.get());
+          if(frame->renderNextFrame() == -1) frame->running = false;
+          SDL_mutexV(frame->mutex.get());
+        }
+      }
+
+      return 1;
+    }
 
 public:
   RxFrame(int, int);
@@ -47,7 +82,7 @@ public:
 
   void setFps(int);
 
-  SDL_Event renderNextFrame();
+  int renderNextFrame();
 
   bool initFrame(int rw, int rh);
 
