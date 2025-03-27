@@ -31,11 +31,36 @@ void RxComponent::getParameters(int *x, int *y, int *w, int *h){
     }
 }
 
-void RxComponent::move(){
-  x+=xspeed;
-  y+=yspeed;
+bool RxComponent::hasCollission(RxComponent& other){
+    return (SDL_HasIntersection(&hitbox, &(other.hitbox)) == SDL_TRUE);
+}
+
+void RxComponent::setBounds(int maxX, int maxY){
+   bounds.h = maxY;
+   bounds.w = maxX;
+   bounds.x = 0;
+   bounds.y = 0;
+}
+
+bool RxComponent::move(){
+  hitbox.x += xspeed;
+  hitbox.y += yspeed;
+
+  if (SDL_HasIntersection(&bounds, &hitbox) == SDL_FALSE) {
+    if ((hitbox.y) >= (bounds.y + bounds.h)) {
+        hitbox.x -= xspeed;
+        hitbox.y -= yspeed;
+        return false;
+    }
+  } else {
+    x += xspeed;
+    y += yspeed;
+  }
+
   xspeed = 0;
   yspeed = 0;
+
+  return true;
 }
 
 void RxComponent::set_movement_parameters(int x, int y){

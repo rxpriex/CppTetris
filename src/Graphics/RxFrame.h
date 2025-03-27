@@ -6,13 +6,16 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include <cstdlib>
-#include <stdio.h>
 
+#include <cstdlib>
+#include <mutex>
+#include <stdio.h>
+#include <thread>
 #include <vector>
 #include <memory>
+#include <functional>
 
-#include "Component/RxComponent.h"
+#include "Components/Template/RxComponent.h"
 
 static void __attribute__((noreturn)) THROW_SDL_ERROR(SDL_Window *DISPLAY,
                                                       SDL_Renderer *RENDERER) {
@@ -25,25 +28,30 @@ static void __attribute__((noreturn)) THROW_SDL_ERROR(SDL_Window *DISPLAY,
 
 class RxFrame {
 private:
-  std::shared_ptr<SDL_Window> DISPLAY;
-  std::shared_ptr<SDL_Renderer> RENDERER;
+    int frames;
+    bool render;
+    std::shared_ptr<std::mutex> mutex;
 
-  std::shared_ptr<std::vector<RxComponent>> children;
+
+    std::shared_ptr<SDL_Window> DISPLAY;
+    std::shared_ptr<SDL_Renderer> RENDERER;
+    std::shared_ptr<std::thread> graphicTimer;
+    std::shared_ptr<std::function<void()>> onUpdate;
+
+    std::shared_ptr<std::vector<RxComponent*>> children;
 
 public:
-  RxFrame(int rw, int rh) {
-    if (!initFrame(rw, rh)) {
-      THROW_SDL_ERROR(DISPLAY.get(), RENDERER.get());
-    }
-  }
+  RxFrame(int, int);
 
   ~RxFrame()=default;
 
-  bool initFrame(int rw, int rh);
+  void setFps(int);
 
   SDL_Event renderNextFrame();
 
-  std::vector<RxComponent>* access_children();
+  bool initFrame(int rw, int rh);
+
+  void addComponent(RxComponent*);
 };
 
 #endif

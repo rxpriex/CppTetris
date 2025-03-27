@@ -9,7 +9,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Add your executable (use ${PROJECT_NAME} consistently)
-add_executable(${PROJECT_NAME} src/main.cpp src/Graphics/RxFrame.cpp src/Graphics/Component/RxComponent.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp src/Graphics/RxFrame.cpp src/Graphics/Components/Template/RxComponent.cpp)
 
 # Set output directory for the executable
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")

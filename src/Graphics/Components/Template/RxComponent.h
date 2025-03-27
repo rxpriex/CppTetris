@@ -22,8 +22,9 @@ class RxComponent {
 protected:
   int x, y;
   int width, height;
-
   int xspeed,yspeed;
+  SDL_Rect hitbox;
+  SDL_Rect bounds;
 
   Color c;
 
@@ -35,17 +36,22 @@ public:
 
   ~RxComponent() = default;
 
-  std::function<void(RxComponent *,SDL_Renderer*)> *access_render_instructions();
-
-  void setLocation(int, int);
+  bool move();
 
   void setSize(int, int);
 
-  void getParameters(int*,int*,int*,int*);
+  void setBounds(int, int);
 
-  void move();
+  void setLocation(int, int);
+
+  bool hasCollission(RxComponent&);
 
   void set_movement_parameters(int,int);
+
+  void getParameters(int*,int*,int*,int*);
+
+  std::function<void(RxComponent *,SDL_Renderer*)> *access_render_instructions();
+
 };
 
 #endif
