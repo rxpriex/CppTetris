@@ -4,6 +4,7 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
+#include <SDL_keyboard.h>
 #include <cstdio>
 #include <windows.h>
 
@@ -16,6 +17,9 @@ int main(int argc, char* argv[]) {
     player = new DrawAbleSprite(50,50,20,20);
     player->setBounds(400, 600);
     frame.addComponent(player);
+    frame.setKeyListener([&](SDL_Event event){
+        printf("%c",(char)event.key.keysym.sym);
+    });
 
     while (true) {
         

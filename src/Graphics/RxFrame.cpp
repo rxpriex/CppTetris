@@ -1,4 +1,5 @@
 #include "RxFrame.h"
+#include <SDL_events.h>
 #include <SDL_mutex.h>
 #include <SDL_thread.h>
 #include <memory>
@@ -33,9 +34,8 @@ bool RxFrame::initFrame(int rw, int rh) {
 int RxFrame::renderNextFrame() {
   SDL_Event event;
   SDL_PollEvent(&event);
-  if (event.type == SDL_QUIT) {
-    return -1;
-  }
+  if (event.type == SDL_QUIT) return -1;
+  if(event.type == SDL_KEYDOWN && keyListener.get())(*keyListener.get())(event);
 
   SDL_SetRenderDrawColor(renderer.get(),
     0, 0, 0, 255);
@@ -55,3 +55,9 @@ int RxFrame::renderNextFrame() {
 void RxFrame::addComponent(RxComponent* target){
     children.get()->push_back(target);
 }
+
+void RxFrame::setOnUpdate(std::function<void()> uFunc) {onUpdate = 
+  std::shared_ptr<std::function<void()>>(&uFunc);}
+
+void RxFrame::setKeyListener(std::function<void(SDL_Event)> kFunc){keyListener = 
+  std::shared_ptr<std::function<void(SDL_Event)>>(&kFunc);}

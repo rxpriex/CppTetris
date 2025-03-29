@@ -38,6 +38,7 @@ private:
     std::shared_ptr<SDL_Renderer> renderer;
     std::shared_ptr<SDL_Thread> graphicThread;
     std::shared_ptr<std::function<void()>> onUpdate;
+    std::shared_ptr<std::function<void(SDL_Event)>> keyListener;
 
     std::shared_ptr<std::vector<RxComponent*>> children;
 
@@ -70,6 +71,9 @@ private:
           if(frame->renderNextFrame() == -1) frame->running = false;
           SDL_mutexV(frame->mutex.get());
         }
+        if(frame->onUpdate.get()){
+          (*frame->onUpdate.get())();
+        }
       }
 
       return 1;
@@ -87,6 +91,11 @@ public:
   bool initFrame(int rw, int rh);
 
   void addComponent(RxComponent*);
+
+  void setOnUpdate(std::function<void()>);
+
+  void setKeyListener(std::function<void(SDL_Event)>);
+
 };
 
 #endif
