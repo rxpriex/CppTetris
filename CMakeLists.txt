@@ -8,20 +8,17 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 # Enable compile commands for better IDE support
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+find_package(SDL_Graph REQUIRED)
+
 # Add your executable (use ${PROJECT_NAME} consistently)
-add_executable(${PROJECT_NAME} src/main.cpp src/Graphics/RxFrame.cpp src/Graphics/Components/Template/RxComponent.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Set output directory for the executable
 set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/out")
 
-# Find SDL2 package
-find_package(SDL2 REQUIRED)
+target_link_libraries(main PRIVATE ${SDL_Graph})
 
-# Include directories for SDL2 and SDL2_gfx (only if found)
-include_directories(${SDL2_INCLUDE_DIRS})
-
-# Link SDL2 and SDL2_gfx to your target (only if SDL2_gfx is found)
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_include_directories(main PRIVATE ${SDL_Graph})
 
 # Set C++ standard explicitly
 set(CMAKE_CXX_STANDARD 11)

@@ -1,12 +1,7 @@
-#include "Graphics/DrawAbleSprite.h"
-#include "Graphics/RxFrame.h"
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_rect.h>
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_stdinc.h>
-#include <SDL_keyboard.h>
 #include <cstdio>
-#include <windows.h>
+#include <SDL_Graph/RxFrame.hpp>
+#include <SDL_Graph/DrawAbleSprite.hpp>
+#include <SDL_Graph/Components/Label/RxLabel.hpp>
 
 DrawAbleSprite* player = NULL;
 
@@ -21,8 +16,11 @@ int main(int argc, char* argv[]) {
         printf("%c",(char)event.key.keysym.sym);
     });
 
+    RxLabel* label = new RxLabel("test");
+    frame.addComponent(label);
+
     while (true) {
-        
+
     }
 
     return 0;
